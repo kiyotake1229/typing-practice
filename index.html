@@ -1,0 +1,2060 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⌨ タイピング練習</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNSIgZmlsbD0iIzFhMWEyZSIvPjxyZWN0IHg9IjMiIHk9IjUiIHdpZHRoPSI1IiBoZWlnaHQ9IjYiIHJ4PSIxLjUiIGZpbGw9IiM1M2Q4ZmIiLz48cmVjdCB4PSIxMCIgeT0iNSIgd2lkdGg9IjUiIGhlaWdodD0iNiIgcng9IjEuNSIgZmlsbD0iIzUzZDhmYiIvPjxyZWN0IHg9IjE3IiB5PSI1IiB3aWR0aD0iNSIgaGVpZ2h0PSI2IiByeD0iMS41IiBmaWxsPSIjNTNkOGZiIi8+PHJlY3QgeD0iMjQiIHk9IjUiIHdpZHRoPSI1IiBoZWlnaHQ9IjYiIHJ4PSIxLjUiIGZpbGw9IiNlOTQ1NjAiLz48cmVjdCB4PSIzIiB5PSIxMyIgd2lkdGg9IjUiIGhlaWdodD0iNiIgcng9IjEuNSIgZmlsbD0iI2U5NDU2MCIvPjxyZWN0IHg9IjEwIiB5PSIxMyIgd2lkdGg9IjUiIGhlaWdodD0iNiIgcng9IjEuNSIgZmlsbD0iIzUzZDhmYiIvPjxyZWN0IHg9IjE3IiB5PSIxMyIgd2lkdGg9IjUiIGhlaWdodD0iNiIgcng9IjEuNSIgZmlsbD0iIzUzZDhmYiIvPjxyZWN0IHg9IjI0IiB5PSIxMyIgd2lkdGg9IjUiIGhlaWdodD0iNiIgcng9IjEuNSIgZmlsbD0iIzUzZDhmYiIvPjxyZWN0IHg9IjYiIHk9IjIxIiB3aWR0aD0iMjAiIGhlaWdodD0iNiIgcng9IjIiIGZpbGw9IiM1M2Q4ZmIiLz48L3N2Zz4K">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #1a1a2e;
+    --surface: #16213e;
+    --surface2: #0f3460;
+    --accent: #e94560;
+    --accent2: #53d8fb;
+    --text: #e0e0e0;
+    --text-dim: #7f8c8d;
+    --correct: #2ecc71;
+    --wrong: #e74c3c;
+    --pending: #4a5568;
+    --cursor-bg: #e94560;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Courier New', Consolas, monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ========== HEADER ========== */
+  header {
+    width: 100%;
+    max-width: 860px;
+    padding: 24px 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+    letter-spacing: 0.12em;
+    color: var(--accent2);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .logo-text span {
+    color: var(--accent);
+  }
+
+  /* ========== TABS ========== */
+  .tabs {
+    display: flex;
+    background: var(--surface);
+    border-radius: 40px;
+    padding: 4px;
+    gap: 4px;
+  }
+
+  .tab-btn {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    padding: 8px 28px;
+    border-radius: 36px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.06em;
+  }
+
+  .tab-btn.active {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  /* ========== MODE SELECTOR ========== */
+  .mode-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .mode-btn {
+    background: var(--surface);
+    border: 2px solid transparent;
+    color: var(--text-dim);
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .mode-btn.active {
+    border-color: var(--accent2);
+    color: var(--accent2);
+  }
+
+  /* ========== LEVEL SELECTOR ========== */
+  .level-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .level-btn {
+    background: var(--surface);
+    border: 2px solid transparent;
+    color: var(--text-dim);
+    padding: 5px 16px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .level-btn[data-level="easy"].active   { border-color: #2ecc71; color: #2ecc71; }
+  .level-btn[data-level="normal"].active { border-color: var(--accent2); color: var(--accent2); }
+  .level-btn[data-level="hard"].active   { border-color: var(--accent); color: var(--accent); }
+
+  /* ========== MAIN AREA ========== */
+  main {
+    width: 100%;
+    max-width: 860px;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* ========== STATS BAR ========== */
+  .stats-bar {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--accent2);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .timer-value {
+    color: var(--accent);
+  }
+
+  .timer-value.urgent {
+    color: #ff6b6b;
+    animation: pulse 0.5s infinite alternate;
+  }
+
+  @keyframes pulse {
+    from { opacity: 1; }
+    to { opacity: 0.5; }
+  }
+
+  /* ========== PROGRESS BAR ========== */
+  .progress-wrap {
+    height: 4px;
+    background: var(--surface);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    width: 0%;
+  }
+
+  /* ========== TEXT DISPLAY ========== */
+  .text-box {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 28px 32px;
+    min-height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 1px solid #ffffff0d;
+  }
+
+  .text-display {
+    font-size: 1.55rem;
+    line-height: 1.8;
+    letter-spacing: 0.05em;
+    word-break: break-all;
+    text-align: center;
+    user-select: none;
+  }
+
+  .char {
+    display: inline-block;
+    position: relative;
+    transition: color 0.08s;
+  }
+
+  .char.correct { color: var(--correct); }
+  .char.wrong   { color: var(--wrong); background: #e74c3c22; border-radius: 3px; }
+  .char.pending { color: var(--pending); }
+
+  .char.cursor::after {
+    content: '';
+    position: absolute;
+    left: -1px;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: var(--cursor-bg);
+    border-radius: 2px;
+    animation: blink 0.8s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* ========== INPUT AREA ========== */
+  .input-wrap {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  #typing-input {
+    flex: 1;
+    background: var(--surface);
+    border: 2px solid var(--surface2);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 1.1rem;
+    font-family: inherit;
+    padding: 14px 18px;
+    outline: none;
+    transition: border-color 0.2s;
+    letter-spacing: 0.05em;
+  }
+
+  #typing-input:focus {
+    border-color: var(--accent2);
+  }
+
+  #typing-input.error {
+    border-color: var(--wrong);
+  }
+
+  #typing-input:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* ========== BUTTONS ========== */
+  .btn {
+    background: var(--accent);
+    border: none;
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .btn:hover { filter: brightness(1.15); }
+  .btn:active { transform: scale(0.97); }
+
+  .btn-secondary {
+    background: var(--surface2);
+  }
+
+  /* ========== HINT ========== */
+  .hint {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    min-height: 1.2em;
+  }
+
+  /* ========== MODAL ========== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: #00000088;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    backdrop-filter: blur(6px);
+  }
+
+  .modal-overlay.hidden { display: none; }
+
+  .modal {
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 40px 48px;
+    max-width: 480px;
+    width: 90%;
+    border: 1px solid var(--surface2);
+    box-shadow: 0 24px 60px #00000066;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .modal h2 {
+    font-size: 1.6rem;
+    color: var(--accent2);
+    letter-spacing: 0.1em;
+  }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .result-card {
+    background: var(--surface2);
+    border-radius: 12px;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .result-card .val {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--accent2);
+  }
+
+  .result-card .lbl {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .best-badge {
+    background: linear-gradient(90deg, var(--accent), #ff8c00);
+    color: #fff;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    display: inline-block;
+  }
+
+  .advice-box {
+    background: #0f3460;
+    border-left: 3px solid var(--accent2);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .advice-label {
+    font-size: 0.7rem;
+    color: var(--accent2);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  .advice-box p {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.6;
+    font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif;
+  }
+
+  .modal-btns {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  /* ========== VIRTUAL KEYBOARD ========== */
+  #virtual-keyboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 14px 12px;
+    background: var(--surface);
+    border-radius: 12px;
+    border: 1px solid #ffffff0d;
+    user-select: none;
+  }
+
+  .kb-row { display: flex; gap: 4px; }
+
+  .kb-key {
+    min-width: 32px;
+    height: 32px;
+    background: var(--surface2);
+    border: 1px solid #ffffff18;
+    border-bottom: 3px solid #00000055;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    transition: background 0.07s, color 0.07s, transform 0.07s;
+    padding: 0 5px;
+  }
+
+  .kb-key.hl {
+    background: var(--accent2);
+    color: #000;
+    border-color: #53d8fb80;
+    box-shadow: 0 0 8px #53d8fb44;
+  }
+
+  .kb-key.flash {
+    background: var(--accent);
+    color: #fff;
+    transform: translateY(2px);
+    border-bottom-width: 1px;
+  }
+
+  .kb-space { min-width: 160px; }
+
+  /* ========== HISTORY CHART ========== */
+  .res-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .res-section-label {
+    font-size: 0.68rem;
+    color: var(--accent2);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  #history-chart {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 8px 8px 4px;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ========== TYPO ANALYSIS ========== */
+  .typo-item {
+    display: grid;
+    grid-template-columns: 36px 1fr 36px;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .typo-char {
+    font-size: 1.05rem;
+    color: var(--accent);
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .typo-bar-wrap {
+    background: #0f3460;
+    border-radius: 4px;
+    height: 7px;
+    overflow: hidden;
+  }
+
+  .typo-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #ff8c00);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+  }
+
+  .typo-count { font-size: 0.72rem; color: var(--text-dim); text-align: right; }
+
+  /* ========== CUSTOM TEXT MODAL ========== */
+  .custom-desc {
+    font-size: 0.83rem;
+    color: var(--text-dim);
+    text-align: left;
+    line-height: 1.5;
+  }
+
+  #custom-textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 2px solid var(--surface2);
+    border-radius: 8px;
+    color: var(--text);
+    font-size: 1rem;
+    font-family: 'Hiragino Sans', 'Yu Gothic', monospace;
+    padding: 12px;
+    outline: none;
+    resize: vertical;
+    min-height: 80px;
+    transition: border-color 0.2s;
+  }
+
+  #custom-textarea:focus { border-color: var(--accent2); }
+
+  .modal { overflow-y: auto; max-height: 90vh; }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 600px) {
+    .text-display { font-size: 1.2rem; }
+    .modal { padding: 28px 20px; }
+    .result-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>
+    <svg class="logo-icon" width="40" height="40" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+      <rect width="32" height="32" rx="5" fill="#16213e"/>
+      <rect x="3" y="5" width="5" height="6" rx="1.5" fill="#53d8fb"/>
+      <rect x="10" y="5" width="5" height="6" rx="1.5" fill="#53d8fb"/>
+      <rect x="17" y="5" width="5" height="6" rx="1.5" fill="#53d8fb"/>
+      <rect x="24" y="5" width="5" height="6" rx="1.5" fill="#e94560"/>
+      <rect x="3" y="13" width="5" height="6" rx="1.5" fill="#e94560"/>
+      <rect x="10" y="13" width="5" height="6" rx="1.5" fill="#53d8fb"/>
+      <rect x="17" y="13" width="5" height="6" rx="1.5" fill="#53d8fb"/>
+      <rect x="24" y="13" width="5" height="6" rx="1.5" fill="#53d8fb"/>
+      <rect x="6" y="21" width="20" height="6" rx="2" fill="#53d8fb"/>
+    </svg>
+    <span class="logo-text">Typing<span> Practice</span></span>
+  </h1>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-lang="ja">日本語</button>
+    <button class="tab-btn" data-lang="en">English</button>
+  </div>
+
+  <div class="mode-row">
+    <button class="mode-btn active" data-mode="timed">60秒 タイムアタック</button>
+    <button class="mode-btn" data-mode="endless">全文完走モード</button>
+    <button class="mode-btn" id="custom-btn">カスタム文章</button>
+  </div>
+
+  <div class="level-row">
+    <button class="level-btn active" data-level="easy">かんたん</button>
+    <button class="level-btn" data-level="normal">ふつう</button>
+    <button class="level-btn" data-level="hard">むずかしい</button>
+  </div>
+</header>
+
+<main>
+  <div class="stats-bar">
+    <div class="stat">
+      <span class="stat-value" id="stat-wpm">0</span>
+      <span class="stat-label">WPM</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value timer-value" id="stat-timer">60</span>
+      <span class="stat-label" id="timer-label">秒</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value" id="stat-acc">100%</span>
+      <span class="stat-label">正確率</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value" id="stat-score">0</span>
+      <span class="stat-label">文字数</span>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+
+  <div class="text-box">
+    <div class="text-display" id="text-display"></div>
+  </div>
+
+  <div class="input-wrap">
+    <input type="text" id="typing-input" placeholder="ここに入力してください..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+    <button class="btn btn-secondary" id="skip-btn">スキップ</button>
+    <button class="btn" id="restart-btn">リスタート</button>
+  </div>
+
+  <p class="hint" id="hint-text"></p>
+
+  <!-- Virtual Keyboard -->
+  <div id="virtual-keyboard"></div>
+</main>
+
+<!-- Result Modal -->
+<div class="modal-overlay hidden" id="modal-overlay">
+  <div class="modal">
+    <h2>結果</h2>
+    <div class="result-grid">
+      <div class="result-card">
+        <span class="val" id="res-wpm">0</span>
+        <span class="lbl">WPM</span>
+      </div>
+      <div class="result-card">
+        <span class="val" id="res-acc">0%</span>
+        <span class="lbl">正確率</span>
+      </div>
+      <div class="result-card">
+        <span class="val" id="res-chars">0</span>
+        <span class="lbl">入力文字数</span>
+      </div>
+      <div class="result-card">
+        <span class="val" id="res-best">0</span>
+        <span class="lbl">ベストWPM</span>
+      </div>
+    </div>
+    <div id="new-best-badge" style="display:none">
+      <span class="best-badge">🏆 新記録！</span>
+    </div>
+    <div class="advice-box" id="advice-box">
+      <span class="advice-label">アドバイス</span>
+      <p id="res-advice"></p>
+    </div>
+    <div class="res-section" id="typo-section">
+      <span class="res-section-label">タイプミス分析</span>
+      <div id="typo-list"></div>
+    </div>
+    <div class="res-section">
+      <span class="res-section-label">WPM 履歴</span>
+      <div id="history-chart"></div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn" id="modal-restart">もう一度</button>
+    </div>
+  </div>
+</div>
+
+<!-- Custom Text Modal -->
+<div class="modal-overlay hidden" id="custom-modal">
+  <div class="modal">
+    <h2>カスタム文章</h2>
+    <p class="custom-desc">練習したい文章を入力してください。<br>日本語（ひらがな・カタカナ）・英語どちらでも使えます。</p>
+    <textarea id="custom-textarea" placeholder="例：おはようございます / hello world"></textarea>
+    <div class="modal-btns">
+      <button class="btn" id="custom-set-btn">セットして練習</button>
+      <button class="btn btn-secondary" id="custom-cancel-btn">キャンセル</button>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ============================================================
+//  ROMAJI TABLE
+// ============================================================
+const ROMAJI_MAP = {
+  // ---- あ行 ----
+  'あ':'a','い':'i','う':'u','え':'e','お':'o',
+  // ---- か行 ----
+  'か':['ka','ca'],'き':'ki','く':['ku','cu'],'け':'ke','こ':['ko','co'],
+  // ---- きゃ行 ----
+  'きゃ':'kya','きぃ':'kyi','きゅ':'kyu','きぇ':'kye','きょ':'kyo',
+  // ---- さ行 ----
+  'さ':'sa','し':['si','shi'],'す':'su','せ':'se','そ':'so',
+  // ---- しゃ行 ----
+  'しゃ':['sya','sha'],'しぃ':'syi','しゅ':['syu','shu'],'しぇ':['sye','she'],'しょ':['syo','sho'],
+  // ---- た行 ----
+  'た':'ta','ち':['ti','chi'],'つ':['tu','tsu'],'て':'te','と':'to',
+  // ---- ちゃ行 ----
+  'ちゃ':['tya','cha'],'ちぃ':'tyi','ちゅ':['tyu','chu'],'ちぇ':['tye','che'],'ちょ':['tyo','cho'],
+  // ---- つぁ行 ----
+  'つぁ':'tsa','つぃ':'tsi','つぇ':'tse','つぉ':'tso',
+  // ---- てぃ行 ----
+  'てぃ':'thi','てゅ':'thu',
+  // ---- な行 ----
+  'な':'na','に':'ni','ぬ':'nu','ね':'ne','の':'no',
+  // ---- にゃ行 ----
+  'にゃ':'nya','にぃ':'nyi','にゅ':'nyu','にぇ':'nye','にょ':'nyo',
+  // ---- は行 ----
+  'は':'ha','ひ':'hi','ふ':['fu','hu'],'へ':'he','ほ':'ho',
+  // ---- ひゃ行 ----
+  'ひゃ':'hya','ひぃ':'hyi','ひゅ':'hyu','ひぇ':'hye','ひょ':'hyo',
+  // ---- ふぁ行 ----
+  'ふぁ':'fa','ふぃ':'fi','ふぇ':'fe','ふぉ':'fo',
+  // ---- ま行 ----
+  'ま':'ma','み':'mi','む':'mu','め':'me','も':'mo',
+  // ---- みゃ行 ----
+  'みゃ':'mya','みぃ':'myi','みゅ':'myu','みぇ':'mye','みょ':'myo',
+  // ---- や行 ----
+  'や':'ya','ゆ':'yu','よ':'yo',
+  // ---- ら行 ----
+  'ら':'ra','り':'ri','る':'ru','れ':'re','ろ':'ro',
+  // ---- りゃ行 ----
+  'りゃ':'rya','りぃ':'ryi','りゅ':'ryu','りぇ':'rye','りょ':'ryo',
+  // ---- わ行 ----
+  'わ':'wa','ゐ':'wi','ゑ':'we','を':'wo',
+  // ---- ん ----
+  'ん':['nn','n\''],  // special: handled separately
+  // ---- が行 ----
+  'が':'ga','ぎ':'gi','ぐ':'gu','げ':'ge','ご':'go',
+  // ---- ぎゃ行 ----
+  'ぎゃ':'gya','ぎぃ':'gyi','ぎゅ':'gyu','ぎぇ':'gye','ぎょ':'gyo',
+  // ---- ざ行 ----
+  'ざ':'za','じ':['zi','ji'],'ず':'zu','ぜ':'ze','ぞ':'zo',
+  // ---- じゃ行 ----
+  'じゃ':['zya','ja','jya'],'じぃ':'zyi','じゅ':['zyu','ju','jyu'],'じぇ':['zye','je'],'じょ':['zyo','jo','jyo'],
+  // ---- だ行 ----
+  'だ':'da','ぢ':'di','づ':'du','で':'de','ど':'do',
+  // ---- ば行 ----
+  'ば':'ba','び':'bi','ぶ':'bu','べ':'be','ぼ':'bo',
+  // ---- びゃ行 ----
+  'びゃ':'bya','びぃ':'byi','びゅ':'byu','びぇ':'bye','びょ':'byo',
+  // ---- ぱ行 ----
+  'ぱ':'pa','ぴ':'pi','ぷ':'pu','ぺ':'pe','ぽ':'po',
+  // ---- ぴゃ行 ----
+  'ぴゃ':'pya','ぴぃ':'pyi','ぴゅ':'pyu','ぴぇ':'pye','ぴょ':'pyo',
+  // ---- 小文字 ----
+  'ぁ':['xa','la'],'ぃ':['xi','li'],'ぅ':['xu','lu'],'ぇ':['xe','le'],'ぉ':['xo','lo'],
+  'っ':['xtu','ltsu'],  // special doubling handled separately
+  'ゃ':['xya','lya'],'ゅ':['xyu','lyu'],'ょ':['xyo','lyo'],
+  // ---- 記号 ----
+  'ー':'-','、':',','。':'.','「':'[','」':']','・':'/'
+};
+
+// ============================================================
+//  BUILD TRIE for prefix matching
+// ============================================================
+function buildRomajiTrie() {
+  // Returns a map: hiragana sequence -> array of romaji patterns
+  // We also need a trie for greedy matching of longest hiragana keys
+
+  // Sort keys by length descending so longer combos match first
+  const keys = Object.keys(ROMAJI_MAP).sort((a,b) => b.length - a.length);
+
+  // trie node: { children: {char: node}, readings: [string] }
+  const root = { children: {}, readings: [] };
+
+  for (const hira of keys) {
+    let node = root;
+    for (const ch of hira) {
+      if (!node.children[ch]) node.children[ch] = { children: {}, readings: [] };
+      node = node.children[ch];
+    }
+    const val = ROMAJI_MAP[hira];
+    node.readings = Array.isArray(val) ? val : [val];
+    node.readings = node.readings.map(r => r.toLowerCase());
+  }
+  return root;
+}
+
+const ROMAJI_TRIE = buildRomajiTrie();
+
+// Convert hiragana text to a list of {hira, options} segments
+function hiraToSegments(text) {
+  // カタカナ（ァ〜ン: U+30A1〜U+30F6）をひらがなに変換してから処理する
+  // ー・、。等はそのまま（ROMAJI_MAP に登録済み）
+  text = text.replace(/[\u30A1-\u30F6]/g,
+    ch => String.fromCharCode(ch.charCodeAt(0) - 0x60));
+
+  const segments = [];
+  let i = 0;
+  while (i < text.length) {
+    const ch = text[i];
+
+    // Special: っ before consonant = double the next consonant
+    if (ch === 'っ') {
+      // peek ahead
+      const nextSeg = peekNextSegment(text, i + 1);
+      if (nextSeg && nextSeg.options.length > 0) {
+        const doubled = nextSeg.options
+          .map(r => r[0] + r)  // double first letter
+          .filter(r => /^[a-z]/.test(r));
+        if (doubled.length > 0) {
+          segments.push({ hira: 'っ' + nextSeg.hira, options: doubled.concat(['xtu', 'ltsu']) });
+          i += 1 + nextSeg.hira.length;
+          continue;
+        }
+      }
+      segments.push({ hira: 'っ', options: ['xtu', 'ltsu'] });
+      i++;
+      continue;
+    }
+
+    // Special: ん handling (not followed by vowel/na-row)
+    if (ch === 'ん') {
+      const next = text[i + 1] || '';
+      const isVowelOrN = 'あいうえおやゆよなにぬねのんａｉｕｅｏ'.includes(next);
+      if (isVowelOrN) {
+        segments.push({ hira: 'ん', options: ["nn"] });
+      } else {
+        segments.push({ hira: 'ん', options: ["n", "nn", "n'"] });
+      }
+      i++;
+      continue;
+    }
+
+    // Try trie match (longest first: 2 chars, then 1)
+    let matched = false;
+    let node = ROMAJI_TRIE;
+    let lastMatch = null;
+    let matchLen = 0;
+
+    for (let j = i; j < Math.min(i + 4, text.length); j++) {
+      const c = text[j];
+      if (!node.children[c]) break;
+      node = node.children[c];
+      if (node.readings.length > 0) {
+        lastMatch = node;
+        matchLen = j - i + 1;
+      }
+    }
+
+    if (lastMatch) {
+      segments.push({ hira: text.slice(i, i + matchLen), options: [...lastMatch.readings] });
+      i += matchLen;
+      matched = true;
+    }
+
+    if (!matched) {
+      // Pass through non-hiragana characters as-is
+      segments.push({ hira: ch, options: [ch.toLowerCase()] });
+      i++;
+    }
+  }
+  return segments;
+}
+
+function peekNextSegment(text, i) {
+  if (i >= text.length) return null;
+  const segs = hiraToSegments(text.slice(i, i + 4));
+  return segs.length > 0 ? segs[0] : null;
+}
+
+// ============================================================
+//  TEXTS
+// ============================================================
+const TEXTS = {
+  ja: {
+    easy: [
+      'あいうえお',
+      'かきくけこ',
+      'さしすせそ',
+      'たちつてと',
+      'なにぬねの',
+      'はひふへほ',
+      'まみむめも',
+      'やゆよ',
+      'らりるれろ',
+      'わをん',
+      'いぬ',
+      'ねこ',
+      'さかな',
+      'はな',
+      'そら',
+      'やま',
+      'かわ',
+      'うみ',
+      'きもち',
+      'たべもの',
+      'のみもの',
+      'おかね',
+      'でんわ',
+      'ともだち',
+      'おはよう',
+      'こんにちは',
+      'こんばんは',
+      'おやすみ',
+      'ありがとう',
+      'すみません',
+    ],
+    normal: [
+      'おはようございます',
+      'ありがとうございます',
+      'どうぞよろしくおねがいします',
+      'きょうはいいてんきですね',
+      'いそがしいですがげんきです',
+      'こんにちは、おげんきですか',
+      'おふろにはいってはやくねます',
+      'りょこうにいくのがゆめです',
+      'しゃしんをとるのがすきです',
+      'れいぞうこにたまごがあります',
+      'かいぎはごごさんじからです',
+      'しゅうまつはかぞくとでかけます',
+      'おなかがすいたのでごはんをたべます',
+      'スーパーでやさいをかいました',
+      'パソコンでしごとをしています',
+      'コーヒーをのみながらほんをよみます',
+      'としょかんでほんをかりました',
+      'てんきよほうによるとあしたはあめです',
+      'にほんごのべんきょうはたのしいです',
+      'ゆきがふったのでみちがすべります',
+      'このえいがはとてもおもしろかったです',
+      'でんしゃにのってかいしゃにいきます',
+      'あたらしいパソコンをかいたいです',
+      'てがみをかいてともだちにおくります',
+      'まいにちうんどうすることがたいせつです',
+      'プログラミングのべんきょうをしています',
+      'えきのちかくにあたらしいみせができました',
+      'むすこはちゅうがくにかよっています',
+      'ははのりょうりはせかいいちおいしいです',
+      'あたらしいパソコンをかいたいとおもっています',
+    ],
+    hard: [
+      'きょうはかいしゃのかいぎがおわったあとともだちとしょくじをします',
+      'にほんごはむずかしいですがまいにちれんしゅうすればかならずじょうずになります',
+      'プログラミングをはじめるときはまずきほんをしっかりまなぶことがたいせつです',
+      'このまちにひっこしてきてからもうさんねんがたちましたがまだなれないことがあります',
+      'しゅうまつにかぞくでこうえんにいってバーベキューをするよていをたてています',
+      'でんしゃがおくれたのでかいしゃにちこくしてしまいあわてておきゃくさまにれんらくしました',
+      'としょかんでかりたほんがとてもおもしろくてひとばんでよみきってしまいました',
+      'けんこうのためにまいあさはやくおきてじょぎんぐをするようにしていますがふゆはとくにつらいです',
+      'スマートフォンのアプリをかいはつするためにプログラミングのべんきょうをはじめました',
+      'りょこうのじゅんびとしてパスポートのこうしんとホテルのよやくをすませました',
+      'ははがつくるりょうりのなかでいちばんすきなのはおでんでさむいふゆにたべるとからだがあたたまります',
+      'かいしゃのどうりょうとチームをくんでしんしょうひんのきかくをたんとうすることになりました',
+      'たいふうがちかづいているのでかいしゃはきゅうきょりんじやすみになりみんないえでしごとをしています',
+      'むすめがしょうがっこうにあがったのをきっかけにどうそうかいをひらいてきゅうゆうとさいかいしました',
+      'ふるいともだちからとつぜんれんらくがあってむかしのおもいでばなしにはながさきました',
+    ],
+  },
+  en: {
+    easy: [
+      'hi',
+      'cat',
+      'dog',
+      'sun',
+      'run',
+      'jump',
+      'play',
+      'good',
+      'nice',
+      'fast',
+      'slow',
+      'big dog',
+      'red cat',
+      'blue sky',
+      'hot sun',
+      'i run',
+      'we play',
+      'go fast',
+      'be good',
+      'have fun',
+      'good job',
+      'well done',
+      'nice work',
+      'keep going',
+      'stay calm',
+      'be happy',
+      'work hard',
+      'think fast',
+      'type well',
+      'never quit',
+    ],
+    normal: [
+      'practice makes perfect',
+      'keep calm and carry on',
+      'better late than never',
+      'you only live once',
+      'knowledge is power',
+      'stay hungry stay foolish',
+      'actions speak louder than words',
+      'every cloud has a silver lining',
+      'time flies when you are having fun',
+      'the early bird catches the worm',
+      'all that glitters is not gold',
+      'a picture is worth a thousand words',
+      'where there is a will there is a way',
+      'every expert was once a beginner',
+      'do what you love and love what you do',
+      'first make it work then make it fast',
+      'always write clean and readable code',
+      'the quick brown fox jumps over the lazy dog',
+      'to be or not to be that is the question',
+      'success is the sum of small efforts repeated daily',
+      'regular practice leads to great improvement',
+      'focus on accuracy before increasing your speed',
+      'the secret of getting ahead is getting started',
+      'quality is not an act it is a habit',
+      'simplicity is the ultimate sophistication',
+      'debugging is twice as hard as writing code',
+      'learning to type faster improves productivity',
+      'the best way to predict the future is to create it',
+      'good programmers write code that humans can understand',
+      'innovation distinguishes between a leader and a follower',
+    ],
+    hard: [
+      'the only way to do great work is to love what you do and never settle for anything less',
+      'in the middle of every difficulty lies opportunity and those who persist will find their way',
+      'programming is not just about writing code it is about solving problems and thinking clearly',
+      'the difference between a good programmer and a great one is knowing when not to write code',
+      'success usually comes to those who are too busy to be looking for it and never give up easily',
+      'it does not matter how slowly you go as long as you do not stop and keep moving forward every day',
+      'the secret of getting ahead is getting started even when you do not feel ready or confident enough',
+      'any sufficiently advanced technology is indistinguishable from magic and innovation drives progress',
+      'first solve the problem then write the code because clear thinking always leads to better solutions',
+      'typing speed improves with consistent daily practice and a focus on accuracy over raw speed alone',
+      'the most powerful tool we have as developers is automation and the ability to build useful things fast',
+      'clean code always looks like it was written by someone who cares deeply about their craft and their team',
+      'simplicity is the soul of efficiency and removing unnecessary complexity is the hardest skill to master',
+      'you do not rise to the level of your goals you fall to the level of your systems so build great habits',
+      'the best time to plant a tree was twenty years ago and the second best time is right now so just start',
+    ],
+  },
+};
+
+// ============================================================
+//  APP STATE
+// ============================================================
+const state = {
+  lang: 'ja',
+  mode: 'timed',       // 'timed' | 'endless'
+  level: 'easy',       // 'easy' | 'normal' | 'hard'
+  running: false,
+  startTime: null,
+  timerInterval: null,
+  timeLeft: 60,
+  textQueue: [],
+  currentIndex: 0,     // index in textQueue
+  segments: [],        // for ja: [{hira, options}], for en: chars
+  segIdx: 0,           // current segment index
+  optIdx: 0,           // current chosen option index (ja)
+  inputBuffer: '',     // what user typed for current segment
+  totalCorrectChars: 0,
+  totalTypedChars: 0,
+  sentencesDone: 0,
+  typoMap: {},          // {char: count}
+};
+
+// ============================================================
+//  DOM
+// ============================================================
+const $ = id => document.getElementById(id);
+const textDisplay  = $('text-display');
+const typingInput  = $('typing-input');
+const progressBar  = $('progress-bar');
+const statWpm      = $('stat-wpm');
+const statTimer    = $('stat-timer');
+const statAcc      = $('stat-acc');
+const statScore    = $('stat-score');
+const timerLabel   = $('timer-label');
+const hintText     = $('hint-text');
+const modalOverlay = $('modal-overlay');
+const resWpm       = $('res-wpm');
+const resAcc       = $('res-acc');
+const resChars     = $('res-chars');
+const resBest      = $('res-best');
+const newBestBadge = $('new-best-badge');
+
+// ============================================================
+//  LOCAL STORAGE
+// ============================================================
+function getBest(lang, mode, level) {
+  return parseInt(localStorage.getItem(`best_${lang}_${mode}_${level}`) || '0', 10);
+}
+
+function setBest(lang, mode, level, wpm) {
+  localStorage.setItem(`best_${lang}_${mode}_${level}`, String(wpm));
+}
+
+// ============================================================
+//  SHUFFLE / QUEUE
+// ============================================================
+function shuffled(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildQueue() {
+  return shuffled(TEXTS[state.lang][state.level]);
+}
+
+// ============================================================
+//  RENDER TEXT
+// ============================================================
+function buildJaDisplay(segments, segIdx, inputBuffer) {
+  // Build flat char list for display: each segment maps to its "display string"
+  // For completed segments: show the hiragana as correct
+  // For current segment: show typed chars (buffer) and remaining
+  // For future segments: show hiragana as pending
+
+  let html = '';
+
+  for (let s = 0; s < segments.length; s++) {
+    const seg = segments[s];
+    const hira = seg.hira;
+
+    if (s < segIdx) {
+      // completed
+      for (const ch of hira) {
+        html += `<span class="char correct">${ch}</span>`;
+      }
+    } else if (s === segIdx) {
+      // current segment — show hira chars with cursor on first
+      for (let ci = 0; ci < hira.length; ci++) {
+        const cls = ci === 0 ? 'char pending cursor' : 'char pending';
+        html += `<span class="${cls}">${hira[ci]}</span>`;
+      }
+    } else {
+      // future
+      for (const ch of hira) {
+        html += `<span class="char pending">${ch}</span>`;
+      }
+    }
+  }
+  return html;
+}
+
+function buildEnDisplay(chars, charIdx) {
+  let html = '';
+  for (let i = 0; i < chars.length; i++) {
+    let cls = 'char';
+    if (i < charIdx) cls += ' correct';
+    else if (i === charIdx) cls += ' pending cursor';
+    else cls += ' pending';
+    html += `<span class="${cls}">${chars[i] === ' ' ? '&nbsp;' : chars[i]}</span>`;
+  }
+  return html;
+}
+
+function renderText() {
+  if (state.lang === 'ja') {
+    textDisplay.innerHTML = buildJaDisplay(state.segments, state.segIdx, state.inputBuffer);
+  } else {
+    textDisplay.innerHTML = buildEnDisplay(state.segments, state.segIdx);
+  }
+}
+
+// ============================================================
+//  LOAD SENTENCE
+// ============================================================
+function loadSentence(text) {
+  state.segments = [];
+  state.segIdx = 0;
+  state.inputBuffer = '';
+
+  if (state.lang === 'ja') {
+    state.segments = hiraToSegments(text);
+  } else {
+    state.segments = text.split('');
+  }
+
+  // Find the active option for each segment (used for hints)
+  if (state.lang === 'ja') {
+    state.segments.forEach(s => { s.activeOpt = 0; });
+  }
+
+  renderText();
+  updateHint();
+  updateKeyboard();
+}
+
+function nextSentence() {
+  state.sentencesDone++;
+  state.currentIndex++;
+
+  if (state.mode === 'endless' && state.currentIndex >= state.textQueue.length) {
+    endSession();
+    return;
+  }
+
+  if (state.currentIndex >= state.textQueue.length) {
+    // refill queue for timed mode
+    state.textQueue = state.textQueue.concat(buildQueue());
+  }
+
+  loadSentence(state.textQueue[state.currentIndex]);
+
+  if (state.mode === 'endless') {
+    progressBar.style.width = `${(state.currentIndex / state.textQueue.length) * 100}%`;
+  }
+}
+
+// ============================================================
+//  HINT
+// ============================================================
+function updateHint() {
+  if (!state.running && !state.startTime) {
+    hintText.textContent = '入力を開始するとタイマーがスタートします';
+    return;
+  }
+  if (state.lang === 'ja' && state.segments.length > 0 && state.segIdx < state.segments.length) {
+    const seg = state.segments[state.segIdx];
+    const opts = seg.options;
+    const typed = state.inputBuffer;
+    // Find which option is being typed
+    const matching = opts.filter(o => o.startsWith(typed));
+    if (matching.length > 0) {
+      const show = matching[0];
+      hintText.textContent = `→ ${seg.hira} : ${opts.join(' / ')}  [入力中: ${typed || '…'}]`;
+    } else {
+      hintText.textContent = `→ ${seg.hira} : ${opts.join(' / ')}`;
+    }
+  } else {
+    hintText.textContent = '';
+  }
+}
+
+// ============================================================
+//  STATS
+// ============================================================
+function calcWpm() {
+  if (!state.startTime) return 0;
+  const elapsedMin = (Date.now() - state.startTime) / 60000;
+  if (elapsedMin < 0.01) return 0;
+  // WPM: chars / 5 / minutes
+  return Math.round(state.totalCorrectChars / 5 / elapsedMin);
+}
+
+function calcAcc() {
+  if (state.totalTypedChars === 0) return 100;
+  return Math.round((state.totalCorrectChars / state.totalTypedChars) * 100);
+}
+
+function updateStats() {
+  const wpm = calcWpm();
+  const acc = calcAcc();
+  statWpm.textContent = wpm;
+  statAcc.textContent = acc + '%';
+  statScore.textContent = state.totalCorrectChars;
+}
+
+// ============================================================
+//  TIMER
+// ============================================================
+function startTimer() {
+  if (state.timerInterval) return;
+
+  if (state.mode === 'timed') {
+    state.timeLeft = 60;
+    statTimer.textContent = 60;
+    timerLabel.textContent = '秒';
+
+    state.timerInterval = setInterval(() => {
+      state.timeLeft--;
+      statTimer.textContent = state.timeLeft;
+
+      if (state.timeLeft <= 10) {
+        statTimer.classList.add('urgent');
+      }
+
+      updateStats();
+
+      if (state.timeLeft <= 0) {
+        endSession();
+      }
+    }, 1000);
+  } else {
+    // endless: show elapsed time
+    timerLabel.textContent = '秒経過';
+    state.timerInterval = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
+      statTimer.textContent = elapsed;
+      updateStats();
+    }, 500);
+  }
+}
+
+// ============================================================
+//  SESSION START / END
+// ============================================================
+function startSession() {
+  state.running = true;
+  state.startTime = Date.now();
+  typingInput.disabled = false;
+  typingInput.focus();
+  startTimer();
+}
+
+// ============================================================
+//  VIRTUAL KEYBOARD
+// ============================================================
+const KB_ROWS = [
+  ['q','w','e','r','t','y','u','i','o','p'],
+  ['a','s','d','f','g','h','j','k','l'],
+  ['z','x','c','v','b','n','m'],
+];
+
+function renderKeyboard() {
+  const kb = $('virtual-keyboard');
+  kb.innerHTML = '';
+  KB_ROWS.forEach(row => {
+    const rowEl = document.createElement('div');
+    rowEl.className = 'kb-row';
+    row.forEach(k => {
+      const el = document.createElement('div');
+      el.className = 'kb-key';
+      el.dataset.key = k;
+      el.textContent = k.toUpperCase();
+      rowEl.appendChild(el);
+    });
+    kb.appendChild(rowEl);
+  });
+  // スペースバー行
+  const spaceRow = document.createElement('div');
+  spaceRow.className = 'kb-row';
+  const spaceEl = document.createElement('div');
+  spaceEl.className = 'kb-key kb-space';
+  spaceEl.dataset.key = ' ';
+  spaceEl.textContent = 'SPACE';
+  spaceRow.appendChild(spaceEl);
+  kb.appendChild(spaceRow);
+}
+
+function getNextKeys() {
+  if (state.segIdx >= state.segments.length) return new Set();
+  if (state.lang === 'ja') {
+    const seg = state.segments[state.segIdx];
+    const buf = state.inputBuffer;
+    const keys = new Set();
+    seg.options.filter(o => o.startsWith(buf)).forEach(o => {
+      if (o.length > buf.length) keys.add(o[buf.length]);
+    });
+    return keys;
+  } else {
+    const ch = state.segments[state.segIdx];
+    return ch ? new Set([ch === ' ' ? ' ' : ch.toLowerCase()]) : new Set();
+  }
+}
+
+function updateKeyboard() {
+  const next = getNextKeys();
+  document.querySelectorAll('.kb-key').forEach(el => {
+    el.classList.toggle('hl', next.has(el.dataset.key));
+  });
+}
+
+function flashKey(ch) {
+  const el = document.querySelector(`.kb-key[data-key="${ch}"]`);
+  if (!el) return;
+  el.classList.add('flash');
+  setTimeout(() => el.classList.remove('flash'), 120);
+}
+
+// ============================================================
+//  SCORE HISTORY
+// ============================================================
+function historyKey() {
+  return `hist_${state.lang}_${state.mode}_${state.level}`;
+}
+
+function saveToHistory(wpm, acc) {
+  const key = historyKey();
+  const hist = JSON.parse(localStorage.getItem(key) || '[]');
+  hist.push({ wpm, acc, ts: Date.now() });
+  if (hist.length > 20) hist.splice(0, hist.length - 20);
+  localStorage.setItem(key, JSON.stringify(hist));
+  return hist;
+}
+
+function renderHistoryChart(hist) {
+  const el = $('history-chart');
+  if (hist.length < 2) {
+    el.innerHTML = '<span style="color:var(--text-dim);font-size:0.78rem">あと' + (2 - hist.length) + '回プレイするとグラフが表示されます</span>';
+    return;
+  }
+  const W = 360, H = 72;
+  const maxW = Math.max(...hist.map(h => h.wpm), 1);
+  const n = hist.length;
+  const bw = Math.floor((W - 20) / n) - 3;
+  let bars = '';
+  hist.forEach((h, i) => {
+    const bh = Math.max(4, Math.floor((h.wpm / maxW) * (H - 22)));
+    const x = 10 + i * (bw + 3);
+    const y = H - 14 - bh;
+    const isLast = i === n - 1;
+    const col = isLast ? '#e94560' : '#53d8fb55';
+    bars += `<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="2" fill="${col}"/>`;
+    if (isLast || i === 0) {
+      bars += `<text x="${x + bw / 2}" y="${y - 3}" text-anchor="middle" fill="${isLast ? '#e94560' : '#53d8fb88'}" font-size="9">${h.wpm}</text>`;
+    }
+  });
+  el.innerHTML = `<svg width="100%" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+    ${bars}
+    <text x="10" y="${H - 2}" fill="#4a5568" font-size="9">全${n}回</text>
+    <text x="${W - 10}" y="${H - 2}" text-anchor="end" fill="#4a5568" font-size="9">最高: ${Math.max(...hist.map(h => h.wpm))} WPM</text>
+  </svg>`;
+}
+
+// ============================================================
+//  TYPO ANALYSIS
+// ============================================================
+function renderTypoAnalysis() {
+  const entries = Object.entries(state.typoMap)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 6);
+  const el = $('typo-list');
+  if (entries.length === 0) {
+    el.innerHTML = '<span style="color:#2ecc71;font-size:0.85rem">ミスなし！完璧です 🎉</span>';
+    return;
+  }
+  const max = entries[0][1];
+  el.innerHTML = entries.map(([ch, cnt]) => `
+    <div class="typo-item">
+      <span class="typo-char">${ch}</span>
+      <div class="typo-bar-wrap"><div class="typo-bar" style="width:${Math.round((cnt / max) * 100)}%"></div></div>
+      <span class="typo-count">${cnt}回</span>
+    </div>`).join('');
+}
+
+// ============================================================
+//  ADVICE
+// ============================================================
+function getAdvice(wpm, acc, level, lang) {
+  const isJa = lang === 'ja';
+  const pool = [];
+
+  // ── 速い × 正確率が低い（無駄打ちが多い）──────────────────
+  if (wpm >= 50 && acc < 80) {
+    pool.push(
+      'スピードは十分です！でも正確率が低すぎます。少しペースを落として丁寧に打ちましょう。',
+      '「速く打てる＝うまい」ではありません。まず正確率 90% を目指してみて！',
+      '速く打ってもミスだらけでは WPM は伸びません。正確さを優先すると結果的に速くなります。',
+    );
+  }
+
+  // ── 正確率が全体的に低い ─────────────────────────────────
+  if (acc < 80) {
+    pool.push(
+      'タイピングの土台は「正確さ」です。まずミスを減らすことから始めましょう。',
+      'ゆっくりでいいので、正確に打つことを意識してください。正確率 90% 以上が目標です。',
+      '打ち間違えても焦らないで。一呼吸おいてから次のキーを押すクセをつけましょう。',
+    );
+  } else if (acc < 90) {
+    pool.push(
+      '正確率がもう少し。打ち間違えやすいキーを意識して練習してみましょう。',
+      '正確率 90% 台を安定させると、スピードが自然と上がってきます。',
+    );
+  }
+
+  // ── 正確率が高い × 速度が遅い（慎重すぎ）───────────────────
+  if (acc >= 95 && wpm < 30) {
+    pool.push(
+      '正確率は優秀！あとはスピードだけです。「正確に、でも少し速く」を意識してみて。',
+      '丁寧に打てています。次は「速く打つ」ことを意識しながら反復練習しましょう！',
+      '正確さは完璧に近い！少し大胆に速く打ってみるとスピードが上がりますよ。',
+    );
+  } else if (acc >= 90 && wpm < 40) {
+    pool.push(
+      '正確さはバッチリ！次は「もう少しだけ速く」を意識してみてください。',
+      '指がキーを覚えてきたら自然とスピードが上がります。今の正確さをキープしながら続けて！',
+    );
+  }
+
+  // ── ホームポジション・初心者向け ─────────────────────────
+  if (wpm < 25) {
+    pool.push(
+      'ホームポジション（左手：asdf、右手：jkl;）を常に意識しましょう。これが速打ちの土台です。',
+      'キーボードを見ながら打っていませんか？画面だけを見て打つ「タッチタイピング」を目指して！',
+      '毎日10分の練習を続けるだけで、1ヶ月後には別人のように速くなります。焦らずコツコツ！',
+      '小指や薬指を使えていますか？全ての指を活用することが速打ちへの近道です。',
+    );
+  }
+
+  // ── リズム・先読み（中級向け）────────────────────────────
+  if (wpm >= 30 && wpm < 60) {
+    pool.push(
+      '文字を「先読み」する習慣をつけましょう。今打っている文字の2〜3文字先を意識して。',
+      '一定のリズムで打つことを意識してみて。速い・遅いの波をなくすと WPM が安定します。',
+      '右手・左手のバランスを意識して。片手に偏って打っていませんか？',
+      '頭でローマ字変換してから打つのではなく、指が自然に動くまで繰り返すのがコツです。',
+    );
+  }
+
+  // ── 日本語ローマ字専用ヒント ──────────────────────────────
+  if (isJa) {
+    if (wpm < 50) {
+      pool.push(
+        '「っ」は子音を2回打つ（kk・ss・tt など）と覚えると素早く入力できます。',
+        '「ん」の後に母音が来ない場合は「n」1文字だけで入力できます（nn は不要）。',
+        '「しゃ・しゅ・しょ」は sha/shu/sho でも sya/syu/syo でも入力できます。使いやすい方で！',
+        '「ち」は chi か ti、「つ」は tsu か tu、どちらでも打てます。打ちやすい方を選んで。',
+      );
+    }
+    if (wpm >= 40) {
+      pool.push(
+        '「じゃ・ちゃ・にゃ」などの拗音を素早く打てると全体の速度が大きく上がります。',
+        '「ふ」は fu か hu、「じ」は zi か ji。自分の指に合ったパターンを1つに絞ると速くなります。',
+        'よく出る組み合わせ（desu / masu / koto / toki など）を塊として覚えると効果的です。',
+      );
+    }
+    if (wpm >= 70) {
+      pool.push(
+        '上級者は「n + 子音」で「ん」を判断しながら同時に次の文字を打ち始めます。意識してみて！',
+        '「ーは「-」、「、」は「,」、「。」は「.」で入力できます。句読点も素早く打てると◎。',
+      );
+    }
+  }
+
+  // ── 英語専用ヒント ────────────────────────────────────────
+  if (!isJa) {
+    if (wpm < 50) {
+      pool.push(
+        'よく使う単語（the / and / that / you / it など）を素早く打てるよう体に覚えさせましょう。',
+        '大文字は Shift キーを使いますが、打ちたいキーと反対の手の Shift を使うのが鉄則です。',
+      );
+    }
+    if (wpm >= 40) {
+      pool.push(
+        '単語の区切りを意識してリズムよく打つと、スペースバーを含めた流れがスムーズになります。',
+        'ing / tion / -ment など語尾パターンを塊として打てると速度がアップします。',
+      );
+    }
+  }
+
+  // ── レベルアップ提案 ─────────────────────────────────────
+  if (level === 'easy' && wpm >= 50 && acc >= 90) {
+    pool.push('「ふつう」レベルへ進む準備ができています！長めの文章で実力を試してみましょう。');
+  }
+  if (level === 'normal' && wpm >= 60 && acc >= 90) {
+    pool.push('「むずかしい」レベルへの挑戦タイミングです！長文でも速く打てるか試してみて。');
+  }
+  if (level === 'hard' && wpm < 30) {
+    pool.push('まずは「かんたん」や「ふつう」レベルで基礎を固めてから再挑戦してみましょう。');
+  }
+
+  // ── 高速 × 高精度（上級者向け）──────────────────────────
+  if (wpm >= 70 && acc >= 95) {
+    pool.push(
+      '速さと正確さを両立できています。この調子で記録を更新し続けましょう！',
+      '上級者レベルです！次は同じ速さで正確率をさらに上げることを目標にして。',
+      'このペースなら WPM 100 超えも夢ではありません。毎日の練習を続けて！',
+    );
+  }
+
+  // ── 超高速（100 WPM+）────────────────────────────────────
+  if (wpm >= 100) {
+    pool.push(
+      '100 WPM 超え！これはトッププレイヤーの証。正確率との完璧なバランスを極めましょう。',
+      'プロ並みの速度です。ここまで来たら「正確率 99%＋高速」を最終目標に。',
+      'すごい！タイピングの才能があります。ぜひ他の人に教えてあげてください。',
+    );
+  }
+
+  // ── 姿勢・環境ヒント（ランダムで時々出す）────────────────
+  const occasionally = [
+    '姿勢も大事！背筋を伸ばし、手首をキーボードに当てないように打つと疲れにくくなります。',
+    'キーボードの高さや角度が合っていないと速度に影響します。環境も見直してみて。',
+    '休憩も練習のうち。疲れた指では正確に打てません。こまめに手を休めましょう。',
+  ];
+
+  // ── 汎用モチベーション ────────────────────────────────────
+  const general = [
+    '毎日続けることが最大の近道。短時間でも毎日練習するのが上達のコツです！',
+    '焦りは禁物。ゆっくりでも正確に打つ練習を繰り返すことで指が覚えていきます。',
+    '継続は力なり。毎日少しずつでも練習を続ければ必ず上達します。',
+    'タイピングは筋肉と同じ。毎日の反復で指が勝手に動くようになります！',
+  ];
+
+  // プールに専用アドバイスがある場合は 85% の確率でそちらを優先
+  if (pool.length > 0 && Math.random() < 0.85) {
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+  // ときどき姿勢・環境ヒントを出す
+  if (Math.random() < 0.3) {
+    return occasionally[Math.floor(Math.random() * occasionally.length)];
+  }
+  return general[Math.floor(Math.random() * general.length)];
+}
+
+function endSession() {
+  state.running = false;
+  clearInterval(state.timerInterval);
+  state.timerInterval = null;
+  typingInput.disabled = true;
+  statTimer.classList.remove('urgent');
+
+  const wpm = calcWpm();
+  const acc = calcAcc();
+  const best = getBest(state.lang, state.mode, state.level);
+  const isNew = wpm > best;
+
+  if (isNew) setBest(state.lang, state.mode, state.level, wpm);
+
+  resWpm.textContent = wpm;
+  resAcc.textContent = acc + '%';
+  resChars.textContent = state.totalCorrectChars;
+  resBest.textContent = isNew ? wpm : best;
+  newBestBadge.style.display = isNew ? 'block' : 'none';
+
+  // アドバイスはタイムアタックのみ表示
+  const adviceBox = $('advice-box');
+  if (state.mode === 'timed') {
+    $('res-advice').textContent = getAdvice(wpm, acc, state.level, state.lang);
+    adviceBox.style.display = 'flex';
+  } else {
+    adviceBox.style.display = 'none';
+  }
+
+  // タイプミス分析
+  renderTypoAnalysis();
+
+  // 履歴保存＆グラフ描画
+  const hist = saveToHistory(wpm, acc);
+  renderHistoryChart(hist);
+
+  modalOverlay.classList.remove('hidden');
+}
+
+function resetSession() {
+  clearInterval(state.timerInterval);
+  state.timerInterval = null;
+  state.running = false;
+  state.startTime = null;
+  state.timeLeft = 60;
+  state.totalCorrectChars = 0;
+  state.totalTypedChars = 0;
+  state.sentencesDone = 0;
+  state.typoMap = {};
+
+  statWpm.textContent = '0';
+  statTimer.textContent = state.mode === 'timed' ? '60' : '0';
+  statAcc.textContent = '100%';
+  statScore.textContent = '0';
+  statTimer.classList.remove('urgent');
+  progressBar.style.width = '0%';
+  typingInput.value = '';
+  typingInput.classList.remove('error');
+  typingInput.disabled = false;
+
+  state.textQueue = buildQueue();
+  state.currentIndex = 0;
+  loadSentence(state.textQueue[0]);
+
+  timerLabel.textContent = state.mode === 'timed' ? '秒' : '秒経過';
+  hintText.textContent = '入力を開始するとタイマーがスタートします';
+}
+
+// ============================================================
+//  INPUT HANDLER — English
+// ============================================================
+function handleEnInput(e) {
+  const val = typingInput.value;
+
+  if (!state.running && val.length > 0) {
+    startSession();
+  }
+
+  const expected = state.segments[state.segIdx];
+  if (expected === undefined) return;
+
+  // We compare full typed value against sentence prefix
+  const sentence = state.segments.join('');
+  const typed = val;
+
+  // Find longest correct prefix
+  let correctLen = 0;
+  for (let i = 0; i < typed.length && i < sentence.length; i++) {
+    if (typed[i] === sentence[i]) correctLen++;
+    else break;
+  }
+
+  // Update char display
+  let html = '';
+  for (let i = 0; i < sentence.length; i++) {
+    let cls = 'char';
+    if (i < typed.length) {
+      cls += typed[i] === sentence[i] ? ' correct' : ' wrong';
+    } else if (i === typed.length) {
+      cls += ' pending cursor';
+    } else {
+      cls += ' pending';
+    }
+    html += `<span class="${cls}">${sentence[i] === ' ' ? '&nbsp;' : sentence[i]}</span>`;
+  }
+  textDisplay.innerHTML = html;
+
+  const hasError = typed.length > 0 && typed[typed.length - 1] !== sentence[typed.length - 1];
+  typingInput.classList.toggle('error', hasError);
+
+  // Track stats for current input event
+  if (val.length > state.segIdx) {
+    const newChar = val[val.length - 1];
+    const expChar = sentence[val.length - 1];
+    if (newChar !== undefined && expChar !== undefined) {
+      state.totalTypedChars++;
+      if (newChar === expChar) state.totalCorrectChars++;
+    }
+  }
+
+  state.segIdx = typed.length;
+
+  // Sentence complete
+  if (typed === sentence) {
+    typingInput.value = '';
+    state.segIdx = 0;
+    if (state.mode === 'timed') {
+      nextSentence();
+    } else {
+      nextSentence();
+    }
+  }
+
+  updateStats();
+}
+
+// ============================================================
+//  INPUT HANDLER — Japanese (romaji)
+// ============================================================
+function handleJaInput(e) {
+  const val = typingInput.value.toLowerCase();
+
+  if (!state.running && val.length > 0) {
+    typingInput.value = '';
+    startSession();
+    state.inputBuffer = val;
+  } else {
+    state.inputBuffer = val;
+  }
+
+  if (state.segIdx >= state.segments.length) return;
+
+  const seg = state.segments[state.segIdx];
+  const opts = seg.options;
+
+  // Find matching options
+  const matching = opts.filter(o => o.startsWith(state.inputBuffer));
+  const exact = opts.find(o => o === state.inputBuffer);
+
+  if (exact) {
+    // Segment complete!
+    state.totalCorrectChars += seg.hira.length;
+    state.totalTypedChars += state.inputBuffer.length;
+    state.segIdx++;
+    state.inputBuffer = '';
+    typingInput.value = '';
+    typingInput.classList.remove('error');
+
+    if (state.segIdx >= state.segments.length) {
+      // Sentence done
+      nextSentence();
+    } else {
+      renderText();
+      updateHint();
+    }
+  } else if (matching.length > 0) {
+    // Still typing — valid prefix
+    typingInput.classList.remove('error');
+    renderText();
+    updateHint();
+  } else {
+    // Wrong input
+    state.totalTypedChars++;
+    typingInput.classList.add('error');
+
+    // Clear and keep last char if it could start a new match
+    const lastChar = state.inputBuffer.slice(-1);
+    const newOpts = opts.filter(o => o.startsWith(lastChar));
+    if (newOpts.length > 0) {
+      state.inputBuffer = lastChar;
+    } else {
+      state.inputBuffer = '';
+    }
+    typingInput.value = state.inputBuffer;
+    updateHint();
+  }
+
+  updateStats();
+}
+
+// ============================================================
+//  JAPANESE KEY PROCESSOR
+// ============================================================
+function commitCurrentSegment(typedStr) {
+  const seg = state.segments[state.segIdx];
+  state.totalCorrectChars += seg.hira.length;
+  state.totalTypedChars  += typedStr.length;
+  state.segIdx++;
+  state.inputBuffer = '';
+  typingInput.value   = '';
+  typingInput.classList.remove('error');
+  if (state.segIdx >= state.segments.length) {
+    nextSentence();
+    return true;
+  }
+  return false;
+}
+
+function processChar(ch) {
+  if (state.segIdx >= state.segments.length) return;
+
+  const seg  = state.segments[state.segIdx];
+  const opts = seg.options;
+  const buf  = state.inputBuffer + ch;
+
+  const matching  = opts.filter(o => o.startsWith(buf));
+  const exact     = opts.find(o => o === buf);
+  const canExtend = matching.some(o => o.length > buf.length);
+
+  if (exact && !canExtend) {
+    // 完全一致かつ延長不可 → コミット
+    const ended = commitCurrentSegment(buf);
+    if (!ended) { renderText(); updateHint(); updateKeyboard(); }
+
+  } else if (matching.length > 0) {
+    // 有効なプレフィックス（延長可能な完全一致も含む）
+    state.inputBuffer = buf;
+    typingInput.value = buf;
+    typingInput.classList.remove('error');
+    renderText();
+    updateHint();
+    updateKeyboard();
+
+  } else {
+    // buf では一致なし
+    // バッファ自体がすでに完全一致なら先にコミットして ch を再処理
+    const prevExact = opts.find(o => o === state.inputBuffer);
+    if (prevExact) {
+      const ended = commitCurrentSegment(state.inputBuffer);
+      if (!ended) processChar(ch);
+      return;
+    }
+
+    // ミス入力
+    state.totalTypedChars++;
+    state.typoMap[seg.hira] = (state.typoMap[seg.hira] || 0) + 1;
+    typingInput.classList.add('error');
+    const startMatch = opts.filter(o => o.startsWith(ch));
+    state.inputBuffer = startMatch.length > 0 ? ch : '';
+    typingInput.value = state.inputBuffer;
+    updateHint();
+  }
+
+  updateKeyboard();
+  updateStats();
+}
+
+// ============================================================
+//  EVENT LISTENERS
+// ============================================================
+typingInput.addEventListener('input', e => {
+  if (state.lang === 'ja') {
+    // IME がコミットしたテキストをバッファで上書きする
+    typingInput.value = state.inputBuffer;
+    return;
+  }
+  handleEnInput(e);
+});
+
+// Skip button
+$('skip-btn').addEventListener('click', () => {
+  if (state.running || !state.running) {
+    state.inputBuffer = '';
+    typingInput.value = '';
+    typingInput.classList.remove('error');
+    if (!state.running && typingInput.disabled === false) {
+      nextSentence();
+    } else if (state.running) {
+      nextSentence();
+    }
+    typingInput.focus();
+  }
+});
+
+// Restart
+$('restart-btn').addEventListener('click', () => {
+  modalOverlay.classList.add('hidden');
+  resetSession();
+  typingInput.focus();
+});
+
+$('modal-restart').addEventListener('click', () => {
+  modalOverlay.classList.add('hidden');
+  resetSession();
+  typingInput.focus();
+});
+
+// Tab buttons
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.lang = btn.dataset.lang;
+    modalOverlay.classList.add('hidden');
+    resetSession();
+    typingInput.focus();
+  });
+});
+
+// Mode buttons
+document.querySelectorAll('.mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.mode = btn.dataset.mode;
+    modalOverlay.classList.add('hidden');
+    resetSession();
+    typingInput.focus();
+  });
+});
+
+// Level buttons
+document.querySelectorAll('.level-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.level = btn.dataset.level;
+    modalOverlay.classList.add('hidden');
+    resetSession();
+    typingInput.focus();
+  });
+});
+
+// IME が勝手に変換しようとしたらバッファを復元する
+typingInput.addEventListener('compositionstart', () => {
+  if (state.lang === 'ja') typingInput.value = state.inputBuffer;
+});
+typingInput.addEventListener('compositionend', () => {
+  if (state.lang !== 'ja') return;
+  // compositionend の後にブラウザが IME テキストをコミットするので
+  // 次の tick で上書きする
+  setTimeout(() => { typingInput.value = state.inputBuffer; }, 0);
+});
+
+// e.code → 文字 のマップ（IME が e.key='Process' を返すときに使う）
+const CODE_TO_CHAR = {
+  'KeyA':'a','KeyB':'b','KeyC':'c','KeyD':'d','KeyE':'e','KeyF':'f',
+  'KeyG':'g','KeyH':'h','KeyI':'i','KeyJ':'j','KeyK':'k','KeyL':'l',
+  'KeyM':'m','KeyN':'n','KeyO':'o','KeyP':'p','KeyQ':'q','KeyR':'r',
+  'KeyS':'s','KeyT':'t','KeyU':'u','KeyV':'v','KeyW':'w','KeyX':'x',
+  'KeyY':'y','KeyZ':'z',
+  'Minus':'-','Comma':',','Period':'.','BracketLeft':'[',
+  'BracketRight':']','Slash':'/','Quote':"'"
+};
+
+// 日本語モード: keydown で生キーをキャプチャして IME をバイパス
+typingInput.addEventListener('keydown', e => {
+  if (state.lang !== 'ja') return;
+
+  if (e.key === 'Backspace') {
+    e.preventDefault();
+    if (state.inputBuffer.length > 0) {
+      state.inputBuffer = state.inputBuffer.slice(0, -1);
+      typingInput.value = state.inputBuffer;
+      renderText();
+      updateHint();
+    }
+    return;
+  }
+
+  // e.key が 'Process' のときは IME が変換中なので e.code から文字を取得
+  let ch;
+  if (e.key === 'Process' || e.isComposing) {
+    ch = CODE_TO_CHAR[e.code];
+    if (!ch) return;
+  } else {
+    if (e.key.length !== 1) return; // Tab, Enter, Arrow 等を無視
+    ch = e.key.toLowerCase();
+  }
+
+  e.preventDefault(); // IME に渡さない
+
+  if (!state.running && !state.startTime) {
+    startSession();
+  }
+
+  flashKey(ch);
+  processChar(ch);
+});
+
+// ============================================================
+//  CUSTOM TEXT MODAL
+// ============================================================
+$('custom-btn').addEventListener('click', () => {
+  $('custom-modal').classList.remove('hidden');
+  $('custom-textarea').focus();
+});
+
+$('custom-cancel-btn').addEventListener('click', () => {
+  $('custom-modal').classList.add('hidden');
+  typingInput.focus();
+});
+
+$('custom-set-btn').addEventListener('click', () => {
+  const raw = $('custom-textarea').value.trim();
+  if (!raw) return;
+
+  // 入力言語を自動判定（ひらがな・カタカナが含まれていれば日本語）
+  const isJa = /[\u3040-\u30FF]/.test(raw);
+  state.lang = isJa ? 'ja' : 'en';
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === state.lang);
+  });
+
+  // 行単位に分割してキューに使う（1行 = 1問）
+  const lines = raw.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+
+  $('custom-modal').classList.add('hidden');
+  $('custom-textarea').value = '';
+
+  modalOverlay.classList.add('hidden');
+  resetSession();
+
+  // カスタム文章でキューを上書き
+  state.textQueue = shuffled(lines.length > 1 ? lines : lines.concat(buildQueue()));
+  state.currentIndex = 0;
+  loadSentence(state.textQueue[0]);
+  typingInput.focus();
+});
+
+// ============================================================
+//  INIT
+// ============================================================
+renderKeyboard();
+resetSession();
+typingInput.focus();
+</script>
+</body>
+</html>
