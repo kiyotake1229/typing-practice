@@ -22,6 +22,153 @@
     --cursor-bg: #e94560;
   }
 
+  /* ===== LIGHT THEME ===== */
+  body.light {
+    --bg: #f0f4f8;
+    --surface: #ffffff;
+    --surface2: #e2e8f0;
+    --text: #1a202c;
+    --text-dim: #718096;
+    --pending: #a0aec0;
+    --cursor-bg: #e94560;
+  }
+  body.light .kb-key { background: #e2e8f0; border-color: #cbd5e0; color: #4a5568; }
+  body.light .kb-key.hl { background: var(--accent2); color: #fff; }
+  body.light #virtual-keyboard { background: #f7fafc; border-color: #e2e8f0; }
+  body.light .text-box { border-color: #e2e8f0; }
+  body.light .typo-bar-wrap { background: #e2e8f0; }
+  body.light .advice-box { background: #dbeafe; }
+  body.light #history-chart { background: #e2e8f0; }
+
+  /* ===== HEADER TOP ===== */
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    position: relative;
+  }
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: absolute;
+    right: 0;
+  }
+  .icon-btn {
+    background: var(--surface);
+    border: none;
+    color: var(--text-dim);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .icon-btn:hover { background: var(--surface2); color: var(--text); }
+  .icon-btn.snd-on { color: var(--accent2); }
+
+  /* ===== STREAK BADGE ===== */
+  .streak-badge {
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 5px 11px;
+    font-size: 0.8rem;
+    color: var(--text);
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  /* ===== TIMER SELECTOR ===== */
+  .timer-selector {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+  }
+  .timer-selector.hidden { display: none; }
+  .timer-opt {
+    background: var(--surface);
+    border: 2px solid transparent;
+    color: var(--text-dim);
+    padding: 4px 13px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .timer-opt.active { border-color: var(--accent); color: var(--accent); }
+
+  /* ===== PACE INDICATOR ===== */
+  #stat-pace { font-size: 1.6rem; }
+  #pace-stat { display: none; }
+
+  /* ===== LIVE WPM GRAPH ===== */
+  #live-wpm-wrap {
+    background: var(--surface);
+    border-radius: 8px;
+    padding: 6px 8px 4px;
+    position: relative;
+  }
+  #live-wpm-canvas {
+    display: block;
+    width: 100%;
+    height: 48px;
+    border-radius: 4px;
+  }
+  #live-wpm-label {
+    position: absolute;
+    top: 6px;
+    left: 12px;
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== COUNTDOWN OVERLAY ===== */
+  #countdown-overlay {
+    position: fixed;
+    inset: 0;
+    background: #000000cc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    backdrop-filter: blur(8px);
+  }
+  #countdown-overlay.hidden { display: none; }
+  #countdown-number {
+    font-size: 7rem;
+    font-weight: bold;
+    color: var(--accent2);
+    line-height: 1;
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 0 40px currentColor;
+    animation: cd-pop 0.7s ease;
+  }
+  #countdown-number.go {
+    color: var(--correct);
+    animation: cd-go 0.5s ease forwards;
+  }
+  @keyframes cd-pop {
+    0% { transform: scale(1.6); opacity: 0; }
+    60% { opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes cd-go {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); }
+    100% { transform: scale(1); opacity: 0; }
+  }
+
   body {
     background: var(--bg);
     color: var(--text);
@@ -565,21 +712,28 @@
 <body>
 
 <header>
-  <h1>
-    <svg class="logo-icon" width="40" height="40" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-      <rect width="32" height="32" rx="5" fill="#16213e"/>
-      <rect x="3" y="5" width="5" height="6" rx="1.5" fill="#53d8fb"/>
-      <rect x="10" y="5" width="5" height="6" rx="1.5" fill="#53d8fb"/>
-      <rect x="17" y="5" width="5" height="6" rx="1.5" fill="#53d8fb"/>
-      <rect x="24" y="5" width="5" height="6" rx="1.5" fill="#e94560"/>
-      <rect x="3" y="13" width="5" height="6" rx="1.5" fill="#e94560"/>
-      <rect x="10" y="13" width="5" height="6" rx="1.5" fill="#53d8fb"/>
-      <rect x="17" y="13" width="5" height="6" rx="1.5" fill="#53d8fb"/>
-      <rect x="24" y="13" width="5" height="6" rx="1.5" fill="#53d8fb"/>
-      <rect x="6" y="21" width="20" height="6" rx="2" fill="#53d8fb"/>
-    </svg>
-    <span class="logo-text">Typing<span> Practice</span></span>
-  </h1>
+  <div class="header-top">
+    <h1>
+      <svg class="logo-icon" width="40" height="40" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="5" fill="#16213e"/>
+        <rect x="3" y="5" width="5" height="6" rx="1.5" fill="#53d8fb"/>
+        <rect x="10" y="5" width="5" height="6" rx="1.5" fill="#53d8fb"/>
+        <rect x="17" y="5" width="5" height="6" rx="1.5" fill="#53d8fb"/>
+        <rect x="24" y="5" width="5" height="6" rx="1.5" fill="#e94560"/>
+        <rect x="3" y="13" width="5" height="6" rx="1.5" fill="#e94560"/>
+        <rect x="10" y="13" width="5" height="6" rx="1.5" fill="#53d8fb"/>
+        <rect x="17" y="13" width="5" height="6" rx="1.5" fill="#53d8fb"/>
+        <rect x="24" y="13" width="5" height="6" rx="1.5" fill="#53d8fb"/>
+        <rect x="6" y="21" width="20" height="6" rx="2" fill="#53d8fb"/>
+      </svg>
+      <span class="logo-text">Typing<span> Practice</span></span>
+    </h1>
+    <div class="header-controls">
+      <span class="streak-badge" id="streak-badge">🔥 0日</span>
+      <button id="sound-toggle" class="icon-btn" title="サウンドON/OFF">🔇</button>
+      <button id="theme-toggle" class="icon-btn" title="テーマ切り替え">🌙</button>
+    </div>
+  </div>
 
   <div class="tabs">
     <button class="tab-btn active" data-lang="ja">日本語</button>
@@ -587,9 +741,17 @@
   </div>
 
   <div class="mode-row">
-    <button class="mode-btn active" data-mode="timed">60秒 タイムアタック</button>
+    <button class="mode-btn active" data-mode="timed">タイムアタック</button>
     <button class="mode-btn" data-mode="endless">全文完走モード</button>
+    <button class="mode-btn" data-mode="weak">苦手文字練習</button>
     <button class="mode-btn" id="custom-btn">カスタム文章</button>
+  </div>
+
+  <div class="timer-selector" id="timer-selector">
+    <button class="timer-opt" data-time="15">15秒</button>
+    <button class="timer-opt" data-time="30">30秒</button>
+    <button class="timer-opt active" data-time="60">60秒</button>
+    <button class="timer-opt" data-time="120">120秒</button>
   </div>
 
   <div class="level-row">
@@ -617,10 +779,19 @@
       <span class="stat-value" id="stat-score">0</span>
       <span class="stat-label">文字数</span>
     </div>
+    <div class="stat" id="pace-stat">
+      <span class="stat-value" id="stat-pace">--</span>
+      <span class="stat-label">ベスト比</span>
+    </div>
   </div>
 
   <div class="progress-wrap">
     <div class="progress-bar" id="progress-bar"></div>
+  </div>
+
+  <div id="live-wpm-wrap" style="display:none">
+    <span id="live-wpm-label">LIVE WPM</span>
+    <canvas id="live-wpm-canvas" height="48"></canvas>
   </div>
 
   <div class="text-box">
@@ -680,6 +851,11 @@
       <button class="btn" id="modal-restart">もう一度</button>
     </div>
   </div>
+</div>
+
+<!-- Countdown Overlay -->
+<div id="countdown-overlay" class="hidden">
+  <div id="countdown-number">3</div>
 </div>
 
 <!-- Custom Text Modal -->
@@ -1056,12 +1232,14 @@ const TEXTS = {
 // ============================================================
 const state = {
   lang: 'ja',
-  mode: 'timed',       // 'timed' | 'endless'
+  mode: 'timed',       // 'timed' | 'endless' | 'weak'
   level: 'easy',       // 'easy' | 'normal' | 'hard'
   running: false,
   startTime: null,
   timerInterval: null,
   timeLeft: 60,
+  selectedTime: 60,    // user-chosen timer duration
+  soundEnabled: false, // key sound toggle
   textQueue: [],
   currentIndex: 0,     // index in textQueue
   segments: [],        // for ja: [{hira, options}], for en: chars
@@ -1072,6 +1250,7 @@ const state = {
   totalTypedChars: 0,
   sentencesDone: 0,
   typoMap: {},          // {char: count}
+  liveWpmData: [],     // WPM snapshots for live graph
 };
 
 // ============================================================
@@ -1118,7 +1297,31 @@ function shuffled(arr) {
 }
 
 function buildQueue() {
+  if (state.mode === 'weak') return buildWeakQueue();
   return shuffled(TEXTS[state.lang][state.level]);
+}
+
+function buildWeakQueue() {
+  // Collect all stored typos for this lang
+  const allTypos = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith(`typos_${state.lang}`)) {
+      try {
+        const data = JSON.parse(localStorage.getItem(key) || '{}');
+        for (const [ch, cnt] of Object.entries(data)) {
+          allTypos[ch] = (allTypos[ch] || 0) + cnt;
+        }
+      } catch(e) {}
+    }
+  }
+  const sorted = Object.entries(allTypos).sort((a, b) => b[1] - a[1]);
+  if (sorted.length === 0) return shuffled(TEXTS[state.lang][state.level]);
+  const weakChars = sorted.slice(0, 6).map(([ch]) => ch);
+  // Find sentences containing at least one weak char
+  const all = Object.values(TEXTS[state.lang]).flat();
+  const filtered = all.filter(t => weakChars.some(ch => t.includes(ch)));
+  return shuffled(filtered.length >= 3 ? filtered : all);
 }
 
 // ============================================================
@@ -1277,24 +1480,25 @@ function updateStats() {
 function startTimer() {
   if (state.timerInterval) return;
 
-  if (state.mode === 'timed') {
-    state.timeLeft = 60;
-    statTimer.textContent = 60;
+  const isTimed = state.mode === 'timed' || state.mode === 'weak';
+  if (isTimed) {
+    state.timeLeft = state.selectedTime;
+    statTimer.textContent = state.selectedTime;
     timerLabel.textContent = '秒';
 
     state.timerInterval = setInterval(() => {
       state.timeLeft--;
       statTimer.textContent = state.timeLeft;
 
-      if (state.timeLeft <= 10) {
-        statTimer.classList.add('urgent');
-      }
+      if (state.timeLeft <= 10) statTimer.classList.add('urgent');
 
+      // record live WPM every second
+      state.liveWpmData.push(calcWpm());
+      updateLiveGraph();
+      updatePace();
       updateStats();
 
-      if (state.timeLeft <= 0) {
-        endSession();
-      }
+      if (state.timeLeft <= 0) endSession();
     }, 1000);
   } else {
     // endless: show elapsed time
@@ -1305,6 +1509,173 @@ function startTimer() {
       updateStats();
     }, 500);
   }
+}
+
+// ============================================================
+//  THEME
+// ============================================================
+function applyTheme(light) {
+  document.body.classList.toggle('light', light);
+  $('theme-toggle').textContent = light ? '☀️' : '🌙';
+  localStorage.setItem('theme', light ? 'light' : 'dark');
+}
+
+// ============================================================
+//  STREAK
+// ============================================================
+function renderStreak() {
+  const data = JSON.parse(localStorage.getItem('streak') || '{"count":0,"lastDate":""}');
+  $('streak-badge').textContent = `🔥 ${data.count}日`;
+}
+
+function updateStreak() {
+  const today = new Date().toISOString().slice(0, 10);
+  const data = JSON.parse(localStorage.getItem('streak') || '{"count":0,"lastDate":""}');
+  if (data.lastDate === today) return;
+  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  data.count = (data.lastDate === yesterday) ? data.count + 1 : 1;
+  data.lastDate = today;
+  localStorage.setItem('streak', JSON.stringify(data));
+  renderStreak();
+}
+
+// ============================================================
+//  SOUNDS (Web Audio API)
+// ============================================================
+let _audioCtx = null;
+function getAudioCtx() {
+  if (!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return _audioCtx;
+}
+
+function playTone(freq, dur, type='sine', vol=0.08) {
+  if (!state.soundEnabled) return;
+  try {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.type = type;
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(vol, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + dur);
+    osc.start(); osc.stop(ctx.currentTime + dur);
+  } catch(e) {}
+}
+
+function playClick()  { playTone(900, 0.045, 'square', 0.06); }
+function playError()  { playTone(160, 0.09, 'sawtooth', 0.12); }
+function playDone()   {
+  [523, 659, 784].forEach((f, i) => {
+    setTimeout(() => playTone(f, 0.14, 'sine', 0.1), i * 100);
+  });
+}
+function playCountBeep(isGo) {
+  playTone(isGo ? 1046 : 660, 0.12, 'sine', 0.15);
+}
+
+// ============================================================
+//  LIVE WPM GRAPH
+// ============================================================
+function updateLiveGraph() {
+  const wrap = $('live-wpm-wrap');
+  const canvas = $('live-wpm-canvas');
+  if (!canvas) return;
+  const data = state.liveWpmData;
+  if (data.length < 1) return;
+  wrap.style.display = 'block';
+
+  const W = canvas.offsetWidth || 800;
+  canvas.width = W;
+  const H = canvas.height;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, W, H);
+
+  const max = Math.max(...data, getBest(state.lang, state.mode, state.level), 1);
+  const step = data.length > 1 ? W / (data.length - 1) : W;
+
+  // best pace dashed line
+  const best = getBest(state.lang, state.mode, state.level);
+  if (best > 0) {
+    const by = H - (best / max) * (H - 4) - 2;
+    ctx.beginPath();
+    ctx.strokeStyle = '#e9456066';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([5, 4]);
+    ctx.moveTo(0, by); ctx.lineTo(W, by);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // live WPM line
+  if (data.length >= 2) {
+    ctx.beginPath();
+    ctx.strokeStyle = '#53d8fb';
+    ctx.lineWidth = 2;
+    data.forEach((v, i) => {
+      const x = i * step;
+      const y = H - (v / max) * (H - 4) - 2;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+    // fill under line
+    ctx.lineTo((data.length - 1) * step, H);
+    ctx.lineTo(0, H);
+    ctx.closePath();
+    ctx.fillStyle = '#53d8fb18';
+    ctx.fill();
+  }
+}
+
+// ============================================================
+//  PACE INDICATOR
+// ============================================================
+function updatePace() {
+  const el = $('stat-pace');
+  const paceStat = $('pace-stat');
+  if (!el || !paceStat) return;
+  const isTimed = state.mode === 'timed' || state.mode === 'weak';
+  if (!state.running || !isTimed) { paceStat.style.display = 'none'; return; }
+  paceStat.style.display = 'flex';
+  const best = getBest(state.lang, state.mode, state.level);
+  if (best === 0) { el.textContent = '--'; el.style.color = 'var(--text-dim)'; return; }
+  const diff = calcWpm() - best;
+  el.textContent = (diff >= 0 ? '+' : '') + diff;
+  el.style.color = diff >= 0 ? 'var(--correct)' : 'var(--wrong)';
+}
+
+// ============================================================
+//  COUNTDOWN
+// ============================================================
+function showCountdown(callback) {
+  const overlay = $('countdown-overlay');
+  const numEl = $('countdown-number');
+  overlay.classList.remove('hidden');
+  typingInput.disabled = true;
+
+  let count = 3;
+  numEl.className = '';
+  numEl.textContent = count;
+  playCountBeep(false);
+
+  const tick = setInterval(() => {
+    count--;
+    if (count > 0) {
+      numEl.textContent = count;
+      playCountBeep(false);
+    } else {
+      numEl.textContent = 'GO!';
+      numEl.className = 'go';
+      playCountBeep(true);
+      clearInterval(tick);
+      setTimeout(() => {
+        overlay.classList.add('hidden');
+        typingInput.disabled = false;
+        typingInput.focus();
+        callback();
+      }, 600);
+    }
+  }, 800);
 }
 
 // ============================================================
@@ -1615,6 +1986,7 @@ function endSession() {
   state.timerInterval = null;
   typingInput.disabled = true;
   statTimer.classList.remove('urgent');
+  $('pace-stat').style.display = 'none';
 
   const wpm = calcWpm();
   const acc = calcAcc();
@@ -1623,15 +1995,31 @@ function endSession() {
 
   if (isNew) setBest(state.lang, state.mode, state.level, wpm);
 
+  // タイプミスをlocalStorageに保存（苦手文字練習用）
+  if (Object.keys(state.typoMap).length > 0) {
+    const key = `typos_${state.lang}_${state.mode}_${state.level}`;
+    const existing = JSON.parse(localStorage.getItem(key) || '{}');
+    for (const [ch, cnt] of Object.entries(state.typoMap)) {
+      existing[ch] = (existing[ch] || 0) + cnt;
+    }
+    localStorage.setItem(key, JSON.stringify(existing));
+  }
+
+  // ストリーク更新
+  updateStreak();
+
+  // 完了音
+  playDone();
+
   resWpm.textContent = wpm;
   resAcc.textContent = acc + '%';
   resChars.textContent = state.totalCorrectChars;
   resBest.textContent = isNew ? wpm : best;
   newBestBadge.style.display = isNew ? 'block' : 'none';
 
-  // アドバイスはタイムアタックのみ表示
+  // アドバイスはタイムアタック・苦手練習で表示
   const adviceBox = $('advice-box');
-  if (state.mode === 'timed') {
+  if (state.mode === 'timed' || state.mode === 'weak') {
     $('res-advice').textContent = getAdvice(wpm, acc, state.level, state.lang);
     adviceBox.style.display = 'flex';
   } else {
@@ -1648,19 +2036,21 @@ function endSession() {
   modalOverlay.classList.remove('hidden');
 }
 
-function resetSession() {
+function resetSession(withCountdown = false) {
   clearInterval(state.timerInterval);
   state.timerInterval = null;
   state.running = false;
   state.startTime = null;
-  state.timeLeft = 60;
+  state.timeLeft = state.selectedTime;
   state.totalCorrectChars = 0;
   state.totalTypedChars = 0;
   state.sentencesDone = 0;
   state.typoMap = {};
+  state.liveWpmData = [];
 
+  const isTimed = state.mode === 'timed' || state.mode === 'weak';
   statWpm.textContent = '0';
-  statTimer.textContent = state.mode === 'timed' ? '60' : '0';
+  statTimer.textContent = isTimed ? state.selectedTime : '0';
   statAcc.textContent = '100%';
   statScore.textContent = '0';
   statTimer.classList.remove('urgent');
@@ -1668,13 +2058,19 @@ function resetSession() {
   typingInput.value = '';
   typingInput.classList.remove('error');
   typingInput.disabled = false;
+  $('pace-stat').style.display = 'none';
+  $('live-wpm-wrap').style.display = 'none';
 
   state.textQueue = buildQueue();
   state.currentIndex = 0;
   loadSentence(state.textQueue[0]);
 
-  timerLabel.textContent = state.mode === 'timed' ? '秒' : '秒経過';
+  timerLabel.textContent = isTimed ? '秒' : '秒経過';
   hintText.textContent = '入力を開始するとタイマーがスタートします';
+
+  if (withCountdown) {
+    showCountdown(() => {});
+  }
 }
 
 // ============================================================
@@ -1840,6 +2236,7 @@ function processChar(ch) {
 
   if (exact && !canExtend) {
     // 完全一致かつ延長不可 → コミット
+    playClick();
     const ended = commitCurrentSegment(buf);
     if (!ended) { renderText(); updateHint(); updateKeyboard(); }
 
@@ -1857,12 +2254,14 @@ function processChar(ch) {
     // バッファ自体がすでに完全一致なら先にコミットして ch を再処理
     const prevExact = opts.find(o => o === state.inputBuffer);
     if (prevExact) {
+      playClick();
       const ended = commitCurrentSegment(state.inputBuffer);
       if (!ended) processChar(ch);
       return;
     }
 
     // ミス入力
+    playError();
     state.totalTypedChars++;
     state.typoMap[seg.hira] = (state.typoMap[seg.hira] || 0) + 1;
     typingInput.classList.add('error');
@@ -1903,17 +2302,17 @@ $('skip-btn').addEventListener('click', () => {
   }
 });
 
-// Restart
+// Restart (with countdown)
 $('restart-btn').addEventListener('click', () => {
   modalOverlay.classList.add('hidden');
   resetSession();
-  typingInput.focus();
+  showCountdown(() => {});
 });
 
 $('modal-restart').addEventListener('click', () => {
   modalOverlay.classList.add('hidden');
   resetSession();
-  typingInput.focus();
+  showCountdown(() => {});
 });
 
 // Tab buttons
@@ -1931,13 +2330,42 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 // Mode buttons
 document.querySelectorAll('.mode-btn').forEach(btn => {
   btn.addEventListener('click', () => {
+    if (!btn.dataset.mode) return; // custom-btn handled separately
     document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     state.mode = btn.dataset.mode;
+    const isTimed = state.mode === 'timed' || state.mode === 'weak';
+    $('timer-selector').classList.toggle('hidden', !isTimed);
     modalOverlay.classList.add('hidden');
     resetSession();
     typingInput.focus();
   });
+});
+
+// Timer selector
+document.querySelectorAll('.timer-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.timer-opt').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.selectedTime = parseInt(btn.dataset.time, 10);
+    modalOverlay.classList.add('hidden');
+    resetSession();
+    typingInput.focus();
+  });
+});
+
+// Theme toggle
+$('theme-toggle').addEventListener('click', () => {
+  applyTheme(!document.body.classList.contains('light'));
+});
+
+// Sound toggle
+$('sound-toggle').addEventListener('click', () => {
+  state.soundEnabled = !state.soundEnabled;
+  const btn = $('sound-toggle');
+  btn.textContent = state.soundEnabled ? '🔊' : '🔇';
+  btn.classList.toggle('snd-on', state.soundEnabled);
+  if (state.soundEnabled) playClick(); // preview
 });
 
 // Level buttons
@@ -2052,6 +2480,12 @@ $('custom-set-btn').addEventListener('click', () => {
 // ============================================================
 //  INIT
 // ============================================================
+// テーマ復元
+applyTheme(localStorage.getItem('theme') === 'light');
+
+// ストリーク表示
+renderStreak();
+
 renderKeyboard();
 resetSession();
 typingInput.focus();
